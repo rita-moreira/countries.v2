@@ -1,10 +1,11 @@
 import React from "react";
 import { selectRegion } from "../actions/index";
+import { connect } from "react-redux";
 
-const Regions = ({ regions }) => {
-  const onClickSelectRegion = (region) => {
-    selectRegion(region);
-  };
+const Regions = ({ regions, onClickSelectRegion }) => {
+  // const onClickSelectRegion = (region) => {
+  //   dispatch.selectRegion(region);
+  // };
   const renderRegions = regions.map((region) => {
     return (
       <button
@@ -26,4 +27,12 @@ const Regions = ({ regions }) => {
   );
 };
 
-export default Regions;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onClickSelectRegion: (region) => {
+      dispatch(selectRegion(region));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Regions);
