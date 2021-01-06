@@ -12,10 +12,23 @@ const SideBar = ({ selectedCountries, removeCountry, selectedRegion }) => {
   const [search, setSearch] = useState("");
   const [resultSearch, setResultSearch] = useState([]);
 
+  let showSelectedCountries = [];
+  if (search === "") {
+    showSelectedCountries = selectedCountries;
+  } else {
+    showSelectedCountries = resultSearch;
+  }
+
+  const OnRemoveCountry = (country) => {
+    removeCountry(country);
+    setResultSearch(showSelectedCountries.filter((elem) => elem !== country));
+  };
+
   const searchItem = (search) => {
+    console.log("correu");
     setSearch(search);
     const regex = search.toUpperCase();
-    const elem = selectedCountries.filter((elem) =>
+    const elem = showSelectedCountries.filter((elem) =>
       elem.name.toUpperCase().startsWith(regex)
     );
     setResultSearch(elem);
@@ -26,13 +39,6 @@ const SideBar = ({ selectedCountries, removeCountry, selectedRegion }) => {
     setSearch("");
     setResultSearch([]);
   }, [selectedRegion]);
-
-  let showSelectedCountries = [];
-  if (search === "") {
-    showSelectedCountries = selectedCountries;
-  } else {
-    showSelectedCountries = resultSearch;
-  }
 
   const renderSelectedCountries = showSelectedCountries.map((country) => {
     return (
@@ -54,7 +60,7 @@ const SideBar = ({ selectedCountries, removeCountry, selectedRegion }) => {
           </div>
         </div>
         <button
-          onClick={() => removeCountry(country)}
+          onClick={() => OnRemoveCountry(country)}
           className="negative right floated ui button"
         >
           Remove
